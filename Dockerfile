@@ -1,7 +1,7 @@
 FROM golang:1.9.3-alpine AS builder
 COPY /*.go /
-RUN go build -o /hello-from /*.go
+RUN apk add --no-cache python2 g++ make && go build -o /hello-from-arm64 /*.go
 
 FROM alpine:3.7
-COPY --from=builder /hello-from /
-ENTRYPOINT ["/hello-from"]
+COPY --from=builder /hello-from-arm64 /
+ENTRYPOINT ["/hello-from-arm64"]
